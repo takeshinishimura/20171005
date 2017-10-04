@@ -1,0 +1,1006 @@
+---
+title       : アンケート調査による消費者セグメンテーション
+subtitle    : 総合地球環境学研究所 コアプログラム研究会
+author      : 西村武司
+job         : 2017年10月5日(木)
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [mathjax, quiz, bootstrap, interactive] # {mathjax, quiz, bootstrap}
+ext_widgets : {rCharts: [libraries/nvd3, libraries/leaflet, libraries/dygraphs]}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+assets      : {assets: ../../assets}
+smaller     : TRUE
+--- .segue bg:dimgray
+
+# 消費者セグメンテーションとは
+
+---
+
+<style type="text/css">
+body {
+  font-family: "Hiragino Kaku Gothic ProN", Meiryo;
+  background: #303030; /*grey transparent;*/
+}
+
+p {
+  font-size: 20px !important;
+  color: #222 !important;
+}
+
+ul {
+  font-size: 30px !important;
+  color: #222 !important;
+}
+
+h2 {
+  font-size: 30px !important;
+  color: #aa0000; /*!important;*/
+}
+
+table {
+  font-size: 35px !important;
+}
+
+blockquote {
+  background-color: #f2f2f2 !important;
+}
+
+strong {
+  color: #0000aa !important;
+}
+
+blue {
+  color: #0000CC;
+  font-weight: bold;
+}
+
+.rmdtable {
+  color: #222 !important;
+}
+
+.big {
+  font-size: 40px !important;
+}
+
+.small {
+  font-size: 20px !important;
+}
+
+aside.gdbar img {
+  width: 75px; 
+  height: 75px; 
+  position: absolute;
+  right: 0;
+  margin: 8px 15px;
+}
+
+.title-slide {
+  background-color: white;
+}
+
+.title-slide h1 {
+  font-size: 36px !important;
+}
+
+.title-slide hgroup > h1, 
+.title-slide hgroup > h2 {
+  color: #222 ;  /* ; #ef5150*/
+}
+
+.segue h1 {
+  font-weight: 600;
+  font-size: 45px !important;
+  line-height: 45px !important;
+  letter-spacing: -2px !important;
+  color: #fff !important;
+}
+
+.title-slide hgroup h1 {
+  font-size: 65px;
+  line-height: 1.4;
+  letter-spacing: -3px;
+  color: #515151 !important;
+}
+
+.ronten iframe {
+  width: 100%;
+  height: 300px;
+  background: white;
+  border: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+code.r {
+  font-size: 15px !important;
+  background-color: #f8f8f8;
+}
+
+code {
+  font-size: 15px !important;
+  color: #222 !important;
+}
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+pre .operator,
+pre .paren {
+  color: #222 !important;
+}
+
+pre .literal {
+  color: #222 !important;
+}
+
+pre .number {
+  color: #222 !important;
+}
+
+pre .comment {
+  color: #222 !important;
+}
+
+pre .keyword {
+  color: #222 !important;
+}
+
+pre .identifier {
+  color: #222 !important;
+}
+
+pre .string {
+  color: #222 !important;
+}
+
+.tomorrow-orange, pre .preprocessor {
+  color: darkred !important;
+}
+</style>
+
+## 消費者セグメンテーション
+
+- 消費者を分類すること
+- 一昔前までは，デモグラフィック変数（年齢，性別，家族構成，家庭のライフサイクル，所得水準，職業，学歴，宗教，人種，国籍など）により，消費者を分類していた
+
+## そもそも，なぜセグメンテーションするのか
+
+- **○○する人**を増やすにはどうすればよいか？
+- 全員にプロモーションするのは非効率
+- 「**○○する人**は**××である人**だ」という関係を見つける
+- 全体の一部である**××である人**にプロモーションすると効果的
+  + このとき，**××である人**を**××ではない人**どうやって区別するのか？
+  + これを実現する手法がセグメンテーション
+
+---
+
+## 消費者セグメンテーションの難しさ
+
+- 消費者の選好が多様化するにつれて，デモグラフィック変数だけでは消費者を分類できなくなってきた
+- 意識と行動レベルでの消費者の分類が必要
+  + アンケート調査が主要な方法となる
+  + 回答が言い回し（wording）に影響されやすいことから，ひとつの情報を得るために同様の質問を繰り返す
+
+---
+
+## 例えば，地球環境問題に対する危機意識を知りたい場合
+
+<div style="text-align: center;"><img width=80% src="./assets/img/アンケート票_最終_091112_1_1.png"></div>
+
+- こう聞けばよいという聞き方はないため，調査実施者が工夫して調査票を設計し，回答者の考えを引き出す必要がある
+
+---
+
+## 消費者意識と行動に関するアンケート調査
+
+- 消費者意識と行動に関するアンケート調査の特性
+  + 意識と行動に関する多数の質問が必要
+  + 同様の質問を重ねて問うことも必要
+
+- 消費者意識と行動に関するアンケート調査結果のデータ特性
+  + 回答パターンが何種類か存在
+  + 特定のパターンをとらない回答者・質問も混在
+  + うまく消費者意識をとらえた質問とそうでない質問が混在
+  + **分析手法を誤るとセグメンテーションに失敗する**
+
+---
+
+## 分析手法の検討
+
+- アンケート調査結果には以下のような傾向が存在すると仮定
+    1. 回答にはいくつかのパターンが存在する
+    2. 回答パターンは質問に対して部分的である
+    3. 質問によっては，任意の回答パターンをとる消費者ととらない消費者が存在する
+    4. すべての質問にわたって回答パターンをとらない消費者が存在する
+- この仮定に従って，回答パターンが部分的に存在するデータを人為的に生成
+  + 質問=変数=15
+  + 各問の選択肢={1, 2, 3}
+  + 回答者=500
+
+---
+
+## 人為的にデータセットを生成
+
+- 2質問群×2タイプの回答パターンが存在
+    1. 問1–問5に回答パターン
+      + 回答者1–100は，すべて1 **＜パターン1-1＞**
+      + 回答者101–200は，すべて3 **＜パターン1-2＞**
+    2. 問6–問10に回答パターン
+      + 回答者1–30，181–250は，すべて1 **＜パターン2-1＞**
+      + 回答者81–130と251–300は，すべて3 **＜パターン2-2＞**
+    3. その他は回答パターンなし
+
+→パターンなしを含めると，全部で**9パターン**
+
+```{r results = "asis", comment = NA, message = FALSE, echo = FALSE}
+set.seed(123)
+d11 <- matrix(1, nrow = 100, ncol = 5)
+d12 <- matrix(3, nrow = 100, ncol = 5)
+d13 <- matrix(sample(c(1, 2, 3), size = 500, replace = TRUE), nrow = 100, ncol = 5)
+d21 <- matrix(1, nrow = 30, ncol = 5)
+d22 <- matrix(sample(c(1, 2, 3), size = 250, replace = TRUE), nrow = 50, ncol = 5)
+d23 <- matrix(3, nrow = 50, ncol = 5)
+d24 <- matrix(sample(c(1, 2, 3), size = 250, replace = TRUE), nrow = 50, ncol = 5)
+d25 <- matrix(1, nrow = 70, ncol = 5)
+d26 <- matrix(3, nrow = 50, ncol = 5)
+d31 <- matrix(sample(c(1, 2, 3), size = 2000, replace = TRUE), nrow = 200, ncol = 10)
+d41 <- matrix(sample(c(1, 2, 3), size = 2500, replace = TRUE), nrow = 500, ncol = 5)
+
+d0 <- as.data.frame(cbind(rbind(cbind(rbind(d11, d12, d13), rbind(d21, d22, d23, d24, d25, d26)), d31), d41))
+names(d0) <- sprintf("Q%d", 1:ncol(d0))
+```
+
+---
+
+## 人為的に生成したデータセット
+
+<div style="text-align: right;margin: 0 170px 0 0;"><img width=72% src="./assets/img/データ概念図0.png"></div>
+
+---
+
+## 2質問群×2タイプの回答パターン
+
+<div style="text-align: right;margin: 0 170px 0 0;"><img width=85% src="./assets/img/データ概念図1.png"></div>
+
+---
+
+## 2質問群×2タイプの回答パターン
+
+<div style="text-align: center;"><img width=60% src="./assets/img/データ概念図2.png"></div>
+
+---
+
+## 購買意志の強い消費者層
+
+- 1つの回答パターンの消費者だけの購買意志が強い場合：**ケース1**
+
+<div style="text-align: center;"><img width=60% src="./assets/img/データ概念図3.png"></div>
+
+---
+
+## 購買意志の強い消費者層
+
+- 2つの無関係な回答パターンの消費者の購買意志が強い場合：**ケース2**
+
+<div style="text-align: center;margin: 32px 0 0 0;"><img width=60% src="./assets/img/データ概念図4.png"></div>
+
+- **購買意志を示す変数**には，**強い場合に確率0.9で1**を与え，**弱い場合に確率0.1で1**を与える
+
+--- .segue bg:dimgray
+
+# 既存モデル適用の問題点
+
+---
+
+## 回帰分析：ケース1
+
+1. Q1–Q15を独立変数とした二項ロジット分析
+2. AICに基づく変数選択
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+# 回帰分析
+
+## ケース1
+## 特定のクラスのみから支持されている場合
+## Q1-Q5 == 1 かつ Q6-Q10 == 1
+y <- c(rbinom(30, 1, .9), rbinom(470, 1, .1))
+d0y1 <- cbind(d0, y)
+res10 <- glm(y ~ ., family = binomial(link = "logit"), d0y1)
+res11 <- step(res10)
+```
+
+```{r results = "markup", echo = TRUE}
+d0y1[c(1:4, 81:84, 101:104, 181:184), ]
+```
+
+---
+
+```{r results = "markup", echo = FALSE}
+summary(res11)
+```
+
+---
+
+## 回帰分析：ケース2
+
+1. Q1–Q15を独立変数とした二項ロジット分析
+2. AICに基づく変数選択
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+## ケース2
+## 2つのクラスから支持されている場合
+## V1-V5 == 1 かつ V6-V10 == 1
+## V1-V5 == 3 かつ V1-V10 == 3
+y <- c(rbinom(30, 1, .9), rbinom(70, 1, .1), rbinom(30, 1, .9), rbinom(370, 1, .1))
+d0y2 <- cbind(d0, y)
+res12 <- glm(y ~ ., family = binomial(link = "logit"), d0y2)
+res13 <- step(res12)
+```
+
+```{r results = "markup", echo = TRUE}
+d0y2[c(1:4, 81:84, 101:104, 181:184), ]
+```
+
+---
+
+```{r results = "markup", echo = FALSE}
+summary(res13)
+```
+
+---
+
+## 回帰分析の問題点
+
+- 意味のある変数（のうちのいくつか）が選択される
+- データが少し変わるだけで，選択される変数が変わる
+
+---
+
+## 因子分析
+
+1. Q1–Q15で因子分析
+2. 抽出した因子スコアで回帰分析
+
+---
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+# 因子分析
+
+res20 <- factanal( ~ ., factors = 2, data = d0, scores = "Bartlett")
+res20
+# plot(res20$loadings, type = "n")
+# text(res20$loadings, colnames(d0))
+```
+
+```{r results = "markup", echo = FALSE}
+res20$loadings
+```
+
+---
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+res23 <- factanal( ~ ., factors = 3, data = d0, scores = "Bartlett")
+```
+
+```{r results = "markup", echo = FALSE}
+res23$loadings
+```
+
+---
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+res27 <- factanal( ~ ., factors = 7, data = d0, scores = "Bartlett")
+```
+
+```{r results = "markup", echo = FALSE}
+res27$loadings
+```
+
+---
+
+## 因子分析：ケース1
+
+1. 2因子を使った二項ロジット分析
+2. AICに基づく変数選択
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+## ケース1
+d0y1s <- cbind(d0y1, res20$scores)
+res30 <- glm(y ~ Q11 + Q12 + Q13 + Q14 + Q15 + Factor1 + Factor2, family = binomial(link = "logit"), d0y1s)
+res31 <- step(res30)
+```
+
+```{r results = "markup", echo = TRUE}
+d0y1s[c(1:4, 81:84, 101:104, 181:184), ]
+```
+
+---
+
+```{r results = "markup", echo = FALSE}
+summary(res31)
+```
+
+---
+
+## 因子分析：ケース2
+
+1. 2因子を使った二項ロジット分析
+2. AICに基づく変数選択
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+## ケース2
+d0y2s <- cbind(d0y2, res20$scores)
+res32 <- glm(y ~ Q11 + Q12 + Q13 + Q14 + Q15 + Factor1 + Factor2, family = binomial(link = "logit"), d0y2s)
+res33 <- step(res32)
+```
+
+```{r results = "markup", echo = TRUE}
+d0y2s[c(1:4, 81:84, 101:104, 181:184), ]
+```
+
+---
+
+```{r results = "markup", echo = FALSE}
+summary(res33)
+```
+
+---
+
+## 因子分析の問題点
+
+- 累積寄与率が低い
+- 2つの因子の選択に失敗することがある
+
+---
+
+## 潜在クラスモデル
+
+- データから事後的にグループ分けを行う方法であり，マーケティングの分野では消費者セグメンテーションの方法として使われる
+
+1. Q1–Q15に潜在クラスモデルを適用
+2. BICに基づきクラス数決定
+
+---
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE, fig.height = 6, fig.width = 6, fig.align = "center"}
+# 潜在クラスモデル
+
+library(poLCA)
+
+min.class  <-  1 # クラス数
+max.class  <-  10
+lc  <-  vector("list", max.class)
+bic  <-  NA
+aic  <-  NA
+
+## 潜在クラスモデル
+f  <-  as.matrix(d0) ~ 1
+for (i in min.class:max.class) {
+    lc[[i]] <- poLCA(f, d0, nclass = i, verbose = FALSE)
+    bic[i] <- lc[[i]]$bic
+    aic[i] <- lc[[i]]$aic
+}
+
+## BICが最小になるクラスを特定
+BIC <- bic
+plot(BIC, type = "o", pch = 15, xlab = "class", main = "Q1–Q15")
+# plot(aic, type="l")
+(min.bic  <-  which.min(bic))
+
+class <- lc[[min.bic]]$predclass
+table(class)
+```
+
+- クラス数`r min.bic`でBICが最小
+
+---
+
+## 潜在クラスモデルによる消費者セグメンテーション
+
+<div style="text-align: center;"><img width=60% src="./assets/img/データ概念図5.png"></div>
+
+---
+
+## 潜在クラスモデル：ケース1
+
+1. 潜在クラスを使った二項ロジット分析
+2. AICに基づく変数選択
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+## 二項ロジット
+class <- as.factor(class)
+
+## ケース1
+d0y1c <- cbind(d0y1, class)
+res40 <- glm(y ~ class, family=binomial(link="logit"), d0y1c)
+res41 <- step(res40)
+```
+
+```{r results = "markup", echo = TRUE}
+d0y1c[c(1:4, 81:84, 101:104, 181:184), ]
+```
+
+---
+
+```{r results = "markup", echo = FALSE}
+summary(res41)
+```
+
+---
+
+## 潜在クラスモデル：ケース2
+
+1. 潜在クラスを使った二項ロジット分析
+2. AICに基づく変数選択
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+## ケース2
+d0y2c <- cbind(d0y2, class)
+res42 <- glm(y ~ class, family=binomial(link="logit"), d0y2c)
+res43 <- step(res42)
+```
+
+```{r results = "markup", echo = TRUE}
+d0y2c[c(1:4, 81:84, 101:104, 181:184), ]
+```
+
+---
+
+```{r results = "markup", echo = FALSE}
+summary(res43)
+```
+
+---
+
+## 潜在クラスモデルの問題点
+
+- 部分的に回答パターンが存在し，その他に回答パターンが存在しない場合，グループ分けが撹乱される
+- グループ分けが不完全なため，解釈を誤るかもしれない
+
+--- .segue bg:dimgray
+
+# 潜在クラスモデルの限定的利用
+
+---
+
+## 潜在クラスモデルの限定的利用
+
+1. 変数のクラスター分析で，関連の強い変数群に分類
+2. 各変数群ごとに潜在クラスモデルを適用
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE, fig.height = 6, fig.width = 12, fig.align = "center"}
+# 潜在クラスモデルの限定的利用
+
+d1 <- d0
+nI <- nrow(d1)
+nK <- ncol(d1)
+# factorに変換
+for(i in 1:nK) {
+  d1[, i] <- as.factor(d1[, i])
+}
+
+## 質問項目のクラスター分析
+res50 <- hclust(dist(t(d1)), method = "ward.D2")
+plot(res50, cex = .8, xlab = "", sub = "")
+```
+
+---
+
+## 潜在クラスモデル
+
+1. Q1–Q5，Q6–Q10，Q11–Q15のそれぞれに潜在クラスモデルを適用
+2. それぞれ，BICに基づきクラス数決定
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE, fig.height = 4, fig.width = 12, fig.align = "center"}
+## 変数群Q1-Q5
+lc <- vector("list", max.class)
+bic <- NA
+aic <- NA
+
+## 潜在クラスモデル
+f <- as.matrix(d0[, 1:5]) ~ 1
+for (i in min.class:max.class) {
+  lc[[i]] <- poLCA(f, d0[, 1:5], nclass = i, verbose = FALSE)
+  bic[i] <- lc[[i]]$bic
+  aic[i] <- lc[[i]]$aic
+}
+
+## BICが最小になるクラスを特定
+BIC <- bic
+par(mfrow=c(1, 3))
+plot(BIC, type = "o", pch = 15, xlab = "class_A", main = "Q1–Q5")
+# plot(aic, type="l")
+(min.bic_A <- which.min(bic))
+
+class_A <- lc[[min.bic_A]]$predclass
+table(class_A)
+
+## 変数群Q6-Q10
+lc <- vector("list", max.class)
+bic <- NA
+aic <- NA
+
+## 潜在クラスモデル
+f <- as.matrix(d0[, 6:10])~1
+for (i in min.class:max.class) {
+  lc[[i]] <- poLCA(f, d0[, 6:10], nclass = i, verbose = FALSE)
+  bic[i] <- lc[[i]]$bic
+  aic[i] <- lc[[i]]$aic
+}
+
+## BICが最小になるクラスを特定
+BIC <- bic
+plot(BIC, type = "o", pch = 15, xlab = "class_B", main = "Q6–Q9")
+# plot(aic, type="l")
+(min.bic_B <- which.min(bic))
+
+class_B <- lc[[min.bic_B]]$predclass
+table(class_B)
+
+## 変数群Q11-Q15
+lc <- vector("list", max.class)
+bic <- NA
+aic <- NA
+
+## 潜在クラスモデル
+f <- as.matrix(d0[, 11:15]) ~ 1
+for (i in min.class:max.class) {
+  lc[[i]] <- poLCA(f, d0[, 11:15], nclass = i, verbose = FALSE)
+  bic[i] <- lc[[i]]$bic
+  aic[i] <- lc[[i]]$aic
+}
+
+## BICが最小になるクラスを特定
+BIC <- bic
+plot(BIC, type = "o", pch = 15, xlab = "class_C", main = "Q11–Q15")
+# plot(aic, type="l")
+(min.bic_C <- which.min(bic))
+
+class3 <- lc[[min.bic_C]]$predclass
+table(class3)
+```
+
+- Q1–Q5は，クラス数`r min.bic_A`でBICが最小
+- Q6–Q10は，クラス数`r min.bic_B`でBICが最小
+- Q11–Q15は，クラス数`r min.bic_C`でBICが最小（クラス分けできない）
+
+---
+
+## 潜在クラスモデルの限定的利用
+
+<div style="text-align: center;"><img width=60% src="./assets/img/データ概念図6.png"></div>
+
+---
+
+## 潜在クラスモデルの限定的利用：ケース1
+
+1. 潜在クラスを使った二項ロジット分析
+2. AICに基づく変数選択
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+## 二項ロジット
+class_A <- as.factor(class_A)
+class_B <- as.factor(class_B)
+
+## ケース1
+d0y1cs <- cbind(d0y1, class_A, class_B)
+res60 <- glm(y ~ Q11 + Q12 + Q13 + Q14 + Q15 + class_A * class_B - class_A - class_B, family = binomial(link = "logit"), d0y1cs)
+res61 <- step(res60)
+```
+
+```{r results = "markup", echo = TRUE}
+d0y1cs[c(1:4, 81:84, 101:104, 181:184), ]
+```
+
+---
+
+```{r results = "markup", echo = FALSE}
+summary(res61)
+```
+
+---
+
+## 潜在クラスモデルの限定的利用：ケース2
+
+1. 潜在クラスを使った二項ロジット分析
+2. AICに基づく変数選択
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+d0y2cs <- cbind(d0y2, class_A, class_B)
+res62 <- glm(y ~ Q11 + Q12 + Q13 + Q14 + Q15 + class_A * class_B - class_A - class_B, family = binomial(link = "logit"), d0y2cs)
+res63 <- step(res62)
+```
+
+```{r results = "markup", echo = TRUE}
+d0y2cs[c(1:4, 81:84, 101:104, 181:184), ]
+```
+
+---
+
+```{r results = "markup", echo = FALSE}
+summary(res63)
+```
+
+--- .segue bg:dimgray
+
+# 実際のアンケート調査結果への適用
+
+---
+
+## アンケート調査の概要
+
+- 調査目的
+  + 生物多様性に配慮して生産された米に対する消費者意識と購買行動を調べる
+- 調査方法
+  + 郵送法
+- 調査対象
+  + 大津市と京都市の住宅地とみられる郵便番号を任意に選択し，同一郵便番号へ全戸配布（合計16地区）
+- 調査期間
+  + 2009年11月中旬配布　同年12月2日までに返送
+- 配布部数：6,000部（大津市 4,710部　京都市 1,290部）
+- 回収部数：1,189部（大津市 986部　京都市 177部　不明 26部）
+- 回収率：19.8%
+
+---
+
+## 潜在クラスモデルの限定的利用
+
+1. すべての質問間のクロス集計を行い，クロス集計表ごとにカイ二乗検定によるp値を得る
+（ただし，この場合の無仮説は，各クロス集計表で定義されるすべてのオッズ比が0である）
+2. 手順1で得たp値を質問間の距離行列として与え，質問に対する最長距離法によるクラスター分析を行う
+3. クラスターの距離が小さい質問群をまとめて，その質問群のみを用いて潜在クラスモデルによる消費者の分類を行う
+（ただし，クラス数はBICが最小となるものを採用する）
+
+<div style="text-align: center;"><img width=100% src="./assets/img/o02yurikago.png"></div>
+
+---
+
+## 質問群A：農村と食の安全性に対する意識と行動
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+data_enq <- data.frame(matrix(c(
+"A", "Q3_1_3", "子供は勉強や習い事に便利な都市部よりも，農山漁村の自然の中で育った方がよい",
+"A", "Q3_1_4", "棚田や里山といった風景を残すために，農村以外の人も何かしなければならない",
+"A", "Q3_2_5", "自分が農業をやるとしたら，自然農法をやりたい",
+"A", "Q3_2_6", "自然農法と聞くと，うさんくさく感じる",
+"A", "Q4_10", "食事にはできるだけ時間をかけたくない",
+"A", "Q4_12", "できることなら，無農薬・無化学肥料で育てられた食べ物だけを食べたい",
+"A", "Q4_13", "中国産の食品は買わないようにしている",
+"A", "Q4_14", "近くでとれた野菜は安心なので，なるべく地元産の野菜を買うようにしている",
+"A", "Q4_15", "近くでとれた野菜は環境にいいので，なるべく地元産の野菜を買うようにしている",
+"A", "Q4_16", "農産物を買うときに，それが環境に配慮して生産されたものかどうか知りたい",
+"A", "Q4_17", "環境に配慮している農家を支えるためだと思って，多少高くても環境に配慮した農産物を買うことがある",
+"B", "Q2_1_1", "川や田んぼを見ると，そこにどんな生き物がいるか気になる",
+"B", "Q2_1_3", "釣りなど，魚を捕まえるのが好きだ",
+"B", "Q2_1_4", "カブトムシ，蝶，セミなど，特に好きな昆虫の種類がある",
+"B", "Q3_1_1", "遊びに出かけるのは市街地よりも農山漁村の方が多い",
+"B", "Q3_1_2", "農山漁村での自給自足的な生活にあこがれる",
+"C", "Q6_3_1", "（「魚のゆりかご水田米」は）他の米より安全で安心できる",
+"C", "Q6_3_2", "「魚のゆりかご水田米」の取り組みは，琵琶湖の魚をはじめとする生態系を守るために役立つ",
+"C", "Q6_3_3", "「魚のゆりかご水田米」の取り組みは，琵琶湖の環境保全に役立つ",
+"C", "Q6_3_4", "「魚のゆりかご水田米」を購入することで，消費者は琵琶湖の生態系または環境の保全に貢献できる",
+"C", "Q6_3_5", "「魚のゆりかご水田米」の取り組みにかかる費用は，お米の値段に上乗せするよりも，税金等をつかって補助すべきだ",
+"H", "Q3_2_1", "ほとんどの農家は儲からずに苦しい生活をしている",
+"H", "Q3_2_2", "大半の農家は，サラリーマンよりも金銭的に裕福だ",
+"H", "Q3_2_3", "本当に日本の農業が守れるなら，今以上に農業に税金を投入してもよいと思う",
+"H", "Q3_2_4", "農家は政策的に優遇されすぎている"
+), ncol = 3, byrow = TRUE))
+names(data_enq) <- c("質問群", "質問", "質問内容")
+
+library(DT)
+outdir <- "./assets/widgets"
+if (!file.exists(outdir)) {
+  dir.create(outdir)
+}
+libdir <- "DT"
+outdir2 <- file.path(outdir, libdir)
+if (!file.exists(outdir2)) {
+  dir.create(outdir2)
+}
+```
+
+```{r results = "asis", echo = FALSE}
+dynamic_table <- datatable(data_enq[data_enq[, "質問群"] == "A", -1], rownames = FALSE, width = "99%", options = list(dom = "t", autoWidth = TRUE, columnDefs = list(list(width = "76%", targets = 1))))
+filename <- "data_enq_A1.html"
+saveWidget(dynamic_table, filename, selfcontained = FALSE, libdir = libdir)
+cat('<iframe src="./assets/widgets/data_enq_A1.html" width=100% height=100% allowtransparency="true"></iframe>')
+```
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+file.copy(filename, file.path(outdir, filename), overwrite = TRUE)
+file.remove(filename)
+```
+
+---
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+data_enq_A <- data.frame(matrix(c(
+1, 22, 47, 37, 87, 101, 53, 146, 17, 0, 29, 9,
+2, 143, 195, 162, 144, 150, 167, 100, 257, 249, 160, 141,
+3, 115, 38, 81, 49, 29, 60, 34, 6, 31, 91, 130,
+1, 14, 13, 3, 82, 93, 5, 27, 0, 0, 0, 0,
+2, 63, 86, 42, 65, 54, 33, 45, 32, 7, 15, 0,
+3, 79, 57, 111, 9, 9, 118, 84, 124, 149, 141, 156,
+1, 24, 38, 13, 54, 42, 54, 105, 127, 117, 51, 31,
+2, 49, 74, 78, 63, 63, 52, 17, 6, 12, 51, 59,
+3, 63, 24, 45, 19, 31, 30, 14, 3, 7, 34, 46,
+1, 21, 28, 32, 21, 48, 37, 53, 0, 0, 12, 1,
+2, 51, 72, 74, 70, 57, 71, 40, 4, 4, 64, 41,
+3, 48, 20, 14, 29, 15, 12, 27, 116, 116, 44, 78,
+1, 55, 72, 86, 1, 24, 89, 84, 70, 69, 85, 51,
+2, 30, 27, 13, 9, 26, 10, 17, 27, 24, 12, 40,
+3, 18, 4, 4, 93, 53, 4, 2, 6, 10, 6, 12
+), ncol = nrow(data_enq[data_enq[, "質問群"] == "A", ]) + 1, byrow = TRUE))
+data_enq_A <- cbind(rep(c("A1", "A2", "A3", "A4", "A5"), each = 3), data_enq_A)
+names(data_enq_A) <- c("層", "選択肢", "Q3_1_3", "Q3_1_4", "Q3_2_5", "Q3_2_6", "Q4_10", "Q4_12", "Q4_13", "Q4_14", "Q4_15", "Q4_16", "Q4_17")
+```
+
+```{r results = "asis", echo = FALSE}
+dynamic_table <- datatable(data_enq_A, rownames = FALSE, width = "99%", options = list(pageLength = nrow(data_enq_A), dom = "t", autoWidth = TRUE))
+dynamic_table2 <- dynamic_table %>% formatStyle(
+  "層",
+  target = "row",
+  backgroundColor = styleEqual(c("A1", "A2", "A3", "A4", "A5"), c("mistyrose", "white", "mistyrose", "white", "mistyrose"))
+)
+filename <- "data_enq_A2.html"
+saveWidget(dynamic_table2, filename, selfcontained = FALSE, libdir = libdir)
+cat('<iframe src="./assets/widgets/data_enq_A2.html" width=100% height=100% allowtransparency="true"></iframe>')
+```
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+file.copy(filename, file.path(outdir, filename), overwrite = TRUE)
+file.remove(filename)
+```
+
+---
+
+## 質問群B：生き物や農山漁村などの自然環境に対する意識と行動
+
+```{r results = "asis", echo = FALSE}
+dynamic_table <- datatable(data_enq[data_enq[, "質問群"] == "B", -1], rownames = FALSE, width = "99%", options = list(dom = "t", autoWidth = TRUE, columnDefs = list(list(width = "76%", targets = 1))))
+filename <- "data_enq_B1.html"
+saveWidget(dynamic_table, filename, selfcontained = FALSE, libdir = libdir)
+cat('<iframe src="./assets/widgets/data_enq_B1.html" width=100% height=100% allowtransparency="true"></iframe>')
+```
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+file.copy(filename, file.path(outdir, filename), overwrite = TRUE)
+file.remove(filename)
+```
+
+---
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+data_enq_B <- data.frame(matrix(c(
+1, 208, 191, 192, 231, 256,
+2, 202, 95, 126, 149, 124,
+3, 3, 127, 95, 33, 33,
+1, 35, 41, 13, 47, 75,
+2, 193, 62, 73, 195, 96,
+3, 154, 279, 296, 140, 211
+), ncol = nrow(data_enq[data_enq[, "質問群"] == "B", ]) + 1, byrow = TRUE))
+data_enq_B <- cbind(rep(c("B1", "B2"), each = 3), data_enq_B)
+names(data_enq_B) <- c("層", "選択肢", "Q2_1_1", "Q2_1_3", "Q2_1_4", "Q3_1_1", "Q3_1_2")
+```
+
+```{r results = "asis", echo = FALSE}
+dynamic_table <- datatable(data_enq_B, rownames = FALSE, width = "99%", options = list(pageLength = nrow(data_enq_B), dom = "t", autoWidth = TRUE))
+dynamic_table2 <- dynamic_table %>% formatStyle(
+  "層",
+  target = "row",
+  backgroundColor = styleEqual(c("B1", "B2"), c("lightcyan", "white"))
+)
+filename <- "data_enq_B2.html"
+saveWidget(dynamic_table2, filename, selfcontained = FALSE, libdir = libdir)
+cat('<iframe src="./assets/widgets/data_enq_B2.html" width=100% height=100% allowtransparency="true"></iframe>')
+```
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+file.copy(filename, file.path(outdir, filename), overwrite = TRUE)
+file.remove(filename)
+```
+
+---
+
+## 質問群C：魚のゆりかご水田米に対する評価
+
+```{r results = "asis", echo = FALSE}
+dynamic_table <- datatable(data_enq[data_enq[, "質問群"] == "C", -1], rownames = FALSE, width = "99%", options = list(dom = "t", autoWidth = TRUE, columnDefs = list(list(width = "76%", targets = 1))))
+filename <- "data_enq_C1.html"
+saveWidget(dynamic_table, filename, selfcontained = FALSE, libdir = libdir)
+cat('<iframe src="./assets/widgets/data_enq_C1.html" width=100% height=100% allowtransparency="true"></iframe>')
+```
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+file.copy(filename, file.path(outdir, filename), overwrite = TRUE)
+file.remove(filename)
+```
+
+---
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+data_enq_C <- data.frame(matrix(c(
+1, 40, 18, 21, 21, 152,
+2, 319, 365, 370, 319, 173,
+3, 33, 9, 1, 52, 67,
+1, 235, 320, 320, 218, 213,
+2, 88, 7, 6, 99, 92,
+3, 4, 0, 1, 10, 22,
+1, 1, 1, 0, 0, 10,
+2, 18, 16, 20, 8, 25,
+3, 57, 59, 56, 68, 41
+), ncol = nrow(data_enq[data_enq[, "質問群"] == "C", ]) + 1, byrow = TRUE))
+data_enq_C <- cbind(rep(c("C1", "C2", "C3"), each = 3), data_enq_C)
+names(data_enq_C) <- c("層", "選択肢", "Q6_3_1", "Q6_3_2", "Q6_3_3", "Q6_3_4", "Q6_3_5")
+```
+
+```{r results = "asis", echo = FALSE}
+dynamic_table <- datatable(data_enq_C, rownames = FALSE, width = "99%", options = list(pageLength = nrow(data_enq_C), dom = "t", autoWidth = TRUE))
+dynamic_table2 <- dynamic_table %>% formatStyle(
+  "層",
+  target = "row",
+  backgroundColor = styleEqual(c("C1", "C2", "C3"), c("honeydew", "white", "honeydew"))
+)
+filename <- "data_enq_C2.html"
+saveWidget(dynamic_table2, filename, selfcontained = FALSE, libdir = libdir)
+cat('<iframe src="./assets/widgets/data_enq_C2.html" width=100% height=100% allowtransparency="true"></iframe>')
+```
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+file.copy(filename, file.path(outdir, filename), overwrite = TRUE)
+file.remove(filename)
+```
+
+---
+
+## 質問群H：農家と農業に対する印象
+
+```{r results = "asis", echo = FALSE}
+dynamic_table <- datatable(data_enq[data_enq[, "質問群"] == "H", -1], rownames = FALSE, width = "99%", options = list(dom = "t", autoWidth = TRUE, columnDefs = list(list(width = "76%", targets = 1))))
+filename <- "data_enq_H1.html"
+saveWidget(dynamic_table, filename, selfcontained = FALSE, libdir = libdir)
+cat('<iframe src="./assets/widgets/data_enq_H1.html" width=100% height=100% allowtransparency="true"></iframe>')
+```
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+file.copy(filename, file.path(outdir, filename), overwrite = TRUE)
+file.remove(filename)
+```
+
+---
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+data_enq_H <- data.frame(matrix(c(
+1, 76, 56, 17, 45,
+2, 225, 279, 131, 267,
+3, 50, 16, 203, 39,
+1, 257, 2, 90, 21,
+2, 45, 42, 161, 92,
+3, 20, 278, 71, 209,
+1, 2, 106, 6, 92,
+2, 16, 11, 25, 21,
+3, 104, 5, 91, 9
+), ncol = nrow(data_enq[data_enq[, "質問群"] == "H", ]) + 1, byrow = TRUE))
+data_enq_H <- cbind(rep(c("H1", "H2", "H3"), each = 3), data_enq_H)
+names(data_enq_H) <- c("層", "選択肢", "Q3_2_1", "Q3_2_2", "Q3_2_3", "Q3_2_4")
+```
+
+```{r results = "asis", echo = FALSE}
+dynamic_table <- datatable(data_enq_H, rownames = FALSE, width = "99%", options = list(pageLength = nrow(data_enq_H), dom = "t", autoWidth = TRUE))
+dynamic_table2 <- dynamic_table %>% formatStyle(
+  "層",
+  target = "row",
+  backgroundColor = styleEqual(c("H1", "H2", "H3"), c("lavender", "white", "lavender"))
+)
+filename <- "data_enq_H2.html"
+saveWidget(dynamic_table2, filename, selfcontained = FALSE, libdir = libdir)
+cat('<iframe src="./assets/widgets/data_enq_H2.html" width=100% height=100% allowtransparency="true"></iframe>')
+```
+
+```{r results = "hide", comment = NA, message = FALSE, echo = FALSE}
+file.copy(filename, file.path(outdir, filename), overwrite = TRUE)
+file.remove(filename)
+```

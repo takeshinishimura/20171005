@@ -1,0 +1,73 @@
+install.packages('huxtable')
+library(huxtable)#
+ht <- hux(#
+        Employee     = c('John Smith', 'Jane Doe', 'David Hugh-Jones'), #
+        Salary       = c(50000, 50000, 40000),#
+        add_colnames = TRUE#
+      )
+data(mtcars)#
+car_ht <- as_hux(mtcars)
+print_screen(ht)
+ht
+right_padding(ht) <- 10#
+left_padding(ht)  <- 10
+bold(ht)[1,]          <- TRUE#
+bottom_border(ht)[1,] <- 1
+align(ht)[,2] <- 'right'
+align(ht)[,'Salary'] <- 'right'
+ht
+caption(ht) <- 'Employee table'#
+ht
+library(dplyr)#
+hux(#
+        Employee     = c('John Smith', 'Jane Doe', 'David Hugh-Jones'), #
+        Salary       = c(50000, 50000, 40000),#
+        add_colnames = TRUE#
+      )                               %>% #
+      set_bold(1, 1:2, TRUE)          %>% #
+      set_bottom_border(1, 1:2, 1)    %>%#
+      set_align(1:4, 2, 'right')      %>%#
+      set_right_padding(10)           %>%#
+      set_left_padding(10)            %>% #
+      set_caption('Employee table')
+library(dplyr)#
+library(ggplot2)
+supply <- Hmisc::bezier(x = c(1, 8, 9),#
+                        y = c(1, 5, 9)) %>%#
+  as_data_frame()#
+#
+ggplot(supply, aes(x = x, y = y)) + #
+  geom_path(color = "#0073D9", size = 1) + #
+  theme_classic() + #
+  coord_equal()
+supply1 <- Hmisc::bezier(x = c(1, 5, 9),#
+                         y = c(1, 5, 9)) %>%#
+  as_data_frame()#
+#
+supply2 <- Hmisc::bezier(x = c(1, 9, 9),#
+                         y = c(1, 2, 9)) %>%#
+  as_data_frame()#
+#
+all_supply_curves <- bind_rows(supply, supply1, supply2, .id = "id")#
+#
+ggplot(all_supply_curves, aes(x = x, y = y, colour = id)) + #
+  geom_path(size = 1) + #
+  scale_color_manual(values = c("#0073D9", "#001F40", "#80DBFF")) +#
+  theme_classic() + #
+  coord_equal()
+all_supply_curves
+demand <- Hmisc::bezier(c(1, 3, 9),#
+                        c(9, 3, 1)) %>%#
+  as_data_frame()#
+#
+ggplot(mapping = aes(x = x, y = y)) + #
+  geom_path(data = supply, color = "#0073D9", size = 1) + #
+  geom_path(data = demand, color = "#FF4036", size = 1) + #
+  theme_classic() + #
+  coord_equal()
+library("slidify")#
+author("20171005")#
+file.copy("../data/index.Rmd", "./index.Rmd", overwrite = TRUE)#
+file.copy(list.files("../data/img", full.names = TRUE), "./assets/img", overwrite = TRUE)#
+slidify("index.Rmd")
+browseURL("index.html")
